@@ -4,10 +4,6 @@ package api;
 
 option go_package = "gen/pb";
 
-import public "github.com/TheSDTM/protoc-gen-gorm/options/gorm.proto";
-import public "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
-import public "github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/annotations.proto";
-
 import "common.proto";
 
 message Posts {
