@@ -51,8 +51,6 @@ func New(
 		mux:    mux,
 	}
 
-	// m.registerHandlers()
-
 	return m, nil
 }
 
