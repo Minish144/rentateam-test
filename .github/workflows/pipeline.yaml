@@ -30,8 +30,8 @@ jobs:
 
   docker-build:
     name: docker build
-    if: github.ref == 'refs/heads/master'
-    needs: build
+    if: github.ref == 'refs/heads/master' # например потом идет пуш в реджистри
+    needs: build                          # но вне мастера он нам не нужен
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
