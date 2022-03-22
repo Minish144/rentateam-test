@@ -348,6 +348,8 @@ func (m *Posts_ListResponse) Validate() error {
 
 	}
 
+	// no validation rules for Count
+
 	return nil
 }
 

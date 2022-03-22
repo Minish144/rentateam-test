@@ -21,5 +21,6 @@ message Posts {
 
     message ListResponse {
         repeated Post posts = 1;
+        uint32 count = 2;
     }
 }
