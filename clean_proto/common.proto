@@ -12,12 +12,9 @@ message Post {
     google.protobuf.Timestamp updatedAt = 3;
     string header = 4;
     string body = 5;
-    repeated string tags = 6; // optional.
+    repeated PostTag tags = 6; // optional.
 }
 
-message Tag {
-    string ID = 1;
-    google.protobuf.Timestamp createdAt = 2;
-    google.protobuf.Timestamp updatedAt = 3;
-    string name = 4;
+message PostTag {
+    string tag = 1;
 }
