@@ -8,12 +8,22 @@ import public "github.com/TheSDTM/protoc-gen-gorm/options/gorm.proto";
 import public "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
 import public "github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/annotations.proto";
 
-message Posts {
-    message CreateRequest {}
+import "common.proto";
 
-    message CreateResponse {}
+message Posts {
+    message CreateRequest {
+        string header = 1;
+        string body = 2;
+        repeated string tags = 3; // optional.
+    }
+
+    message CreateResponse {
+        Post post = 1;
+    }
 
     message ListRequest {}
 
-    message ListResponse {}
+    message ListResponse {
+        repeated Post posts = 1;
+    }
 }

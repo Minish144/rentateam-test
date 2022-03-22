@@ -108,6 +108,10 @@ func (m *Posts_CreateRequest) Validate() error {
 		return nil
 	}
 
+	// no validation rules for Header
+
+	// no validation rules for Body
+
 	return nil
 }
 
@@ -173,6 +177,16 @@ var _ interface {
 func (m *Posts_CreateResponse) Validate() error {
 	if m == nil {
 		return nil
+	}
+
+	if v, ok := interface{}(m.GetPost()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Posts_CreateResponseValidationError{
+				field:  "Post",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	return nil
@@ -307,6 +321,21 @@ var _ interface {
 func (m *Posts_ListResponse) Validate() error {
 	if m == nil {
 		return nil
+	}
+
+	for idx, item := range m.GetPosts() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return Posts_ListResponseValidationError{
+					field:  fmt.Sprintf("Posts[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	return nil
