@@ -15,4 +15,10 @@ service ApiService {
             body: "*";
         };
     }
+
+    rpc ListPosts(Posts.ListRequest) returns (Posts.ListResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/posts";
+        };
+    }
 }

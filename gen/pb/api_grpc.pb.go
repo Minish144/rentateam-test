@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApiServiceClient interface {
 	CreatePost(ctx context.Context, in *Posts_CreateRequest, opts ...grpc.CallOption) (*Posts_CreateResponse, error)
+	ListPosts(ctx context.Context, in *Posts_ListRequest, opts ...grpc.CallOption) (*Posts_ListResponse, error)
 }
 
 type apiServiceClient struct {
@@ -42,11 +43,21 @@ func (c *apiServiceClient) CreatePost(ctx context.Context, in *Posts_CreateReque
 	return out, nil
 }
 
+func (c *apiServiceClient) ListPosts(ctx context.Context, in *Posts_ListRequest, opts ...grpc.CallOption) (*Posts_ListResponse, error) {
+	out := new(Posts_ListResponse)
+	err := c.cc.Invoke(ctx, "/api.ApiService/ListPosts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiServiceServer is the server API for ApiService service.
 // All implementations must embed UnimplementedApiServiceServer
 // for forward compatibility
 type ApiServiceServer interface {
 	CreatePost(context.Context, *Posts_CreateRequest) (*Posts_CreateResponse, error)
+	ListPosts(context.Context, *Posts_ListRequest) (*Posts_ListResponse, error)
 	mustEmbedUnimplementedApiServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedApiServiceServer struct {
 
 func (UnimplementedApiServiceServer) CreatePost(context.Context, *Posts_CreateRequest) (*Posts_CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePost not implemented")
+}
+func (UnimplementedApiServiceServer) ListPosts(context.Context, *Posts_ListRequest) (*Posts_ListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPosts not implemented")
 }
 func (UnimplementedApiServiceServer) mustEmbedUnimplementedApiServiceServer() {}
 
@@ -88,6 +102,24 @@ func _ApiService_CreatePost_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiService_ListPosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Posts_ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServiceServer).ListPosts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ApiService/ListPosts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServiceServer).ListPosts(ctx, req.(*Posts_ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiService_ServiceDesc is the grpc.ServiceDesc for ApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var ApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreatePost",
 			Handler:    _ApiService_CreatePost_Handler,
+		},
+		{
+			MethodName: "ListPosts",
+			Handler:    _ApiService_ListPosts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
