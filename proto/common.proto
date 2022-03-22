@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "gen/pb";
+
+import public "github.com/TheSDTM/protoc-gen-gorm/options/gorm.proto";
+import public "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
+import public "github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/annotations.proto";
+import public "google/protobuf/timestamp.proto";
+
+message Post {
+    option (gorm.opts) = {
+        ormable: true,
+    };
+    string ID = 1 [(gorm.field).tag = {type: "uuid", primary_key: true}];
+    string header = 2;
+    string body = 3;
+    repeated string tags = 4;
+    google.protobuf.Timestamp createdAt = 5 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
+    google.protobuf.Timestamp updatedAt = 6 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
+}
