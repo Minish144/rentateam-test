@@ -108,9 +108,19 @@ func (m *Posts_CreateRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Header
+	if utf8.RuneCountInString(m.GetHeader()) < 5 {
+		return Posts_CreateRequestValidationError{
+			field:  "Header",
+			reason: "value length must be at least 5 runes",
+		}
+	}
 
-	// no validation rules for Body
+	if utf8.RuneCountInString(m.GetBody()) < 30 {
+		return Posts_CreateRequestValidationError{
+			field:  "Body",
+			reason: "value length must be at least 30 runes",
+		}
+	}
 
 	return nil
 }
