@@ -14,9 +14,9 @@ message Post {
         ormable: true,
     };
     string ID = 1 [(gorm.field).tag = {type: "uuid", primary_key: true}];
-    string header = 2;
-    string body = 3;
-    repeated string tags = 4;
-    google.protobuf.Timestamp createdAt = 5 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
-    google.protobuf.Timestamp updatedAt = 6 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
+    google.protobuf.Timestamp createdAt = 2 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
+    google.protobuf.Timestamp updatedAt = 3 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
+    string header = 4;
+    string body = 5;
+    repeated string tags = 6; // optional.
 }

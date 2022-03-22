@@ -9,11 +9,11 @@ import public "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto
 import public "github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/annotations.proto";
 
 message Posts {
-    message CreateRequest {
+    message CreateRequest {}
 
-    }
+    message CreateResponse {}
 
-    message CreateResponse {
+    message ListRequest {}
 
-    }
+    message ListResponse {}
 }
