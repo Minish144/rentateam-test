@@ -9,6 +9,7 @@ import (
 	"github.com/minish144/rentateam-test/modules/config"
 	"github.com/minish144/rentateam-test/modules/logger"
 	"github.com/minish144/rentateam-test/modules/server/grpc/controllers"
+	"github.com/minish144/rentateam-test/modules/server/grpc/controllers/posts"
 	"github.com/sirupsen/logrus"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
@@ -29,8 +30,11 @@ var Module = fx.Options(
 func New(
 	log *logger.LoggerModule,
 	config *config.Config,
+	postsCtrl *posts.GRPCControllerModule,
 ) (*GRPCModule, error) {
-	s := &ApiServiceServer{}
+	s := &ApiServiceServer{
+		postsCtrl: postsCtrl,
+	}
 	grpcServer := grpc.NewServer()
 
 	pb.RegisterApiServiceServer(grpcServer, s)

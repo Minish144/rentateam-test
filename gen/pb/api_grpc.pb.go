@@ -22,7 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApiServiceClient interface {
-	GetPost(ctx context.Context, in *Posts_CreateRequest, opts ...grpc.CallOption) (*Posts_CreateResponse, error)
+	CreatePost(ctx context.Context, in *Posts_CreateRequest, opts ...grpc.CallOption) (*Posts_CreateResponse, error)
+	ListPosts(ctx context.Context, in *Posts_ListRequest, opts ...grpc.CallOption) (*Posts_ListResponse, error)
 }
 
 type apiServiceClient struct {
@@ -33,9 +34,18 @@ func NewApiServiceClient(cc grpc.ClientConnInterface) ApiServiceClient {
 	return &apiServiceClient{cc}
 }
 
-func (c *apiServiceClient) GetPost(ctx context.Context, in *Posts_CreateRequest, opts ...grpc.CallOption) (*Posts_CreateResponse, error) {
+func (c *apiServiceClient) CreatePost(ctx context.Context, in *Posts_CreateRequest, opts ...grpc.CallOption) (*Posts_CreateResponse, error) {
 	out := new(Posts_CreateResponse)
-	err := c.cc.Invoke(ctx, "/api.ApiService/GetPost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.ApiService/CreatePost", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiServiceClient) ListPosts(ctx context.Context, in *Posts_ListRequest, opts ...grpc.CallOption) (*Posts_ListResponse, error) {
+	out := new(Posts_ListResponse)
+	err := c.cc.Invoke(ctx, "/api.ApiService/ListPosts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +56,8 @@ func (c *apiServiceClient) GetPost(ctx context.Context, in *Posts_CreateRequest,
 // All implementations must embed UnimplementedApiServiceServer
 // for forward compatibility
 type ApiServiceServer interface {
-	GetPost(context.Context, *Posts_CreateRequest) (*Posts_CreateResponse, error)
+	CreatePost(context.Context, *Posts_CreateRequest) (*Posts_CreateResponse, error)
+	ListPosts(context.Context, *Posts_ListRequest) (*Posts_ListResponse, error)
 	mustEmbedUnimplementedApiServiceServer()
 }
 
@@ -54,8 +65,11 @@ type ApiServiceServer interface {
 type UnimplementedApiServiceServer struct {
 }
 
-func (UnimplementedApiServiceServer) GetPost(context.Context, *Posts_CreateRequest) (*Posts_CreateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPost not implemented")
+func (UnimplementedApiServiceServer) CreatePost(context.Context, *Posts_CreateRequest) (*Posts_CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePost not implemented")
+}
+func (UnimplementedApiServiceServer) ListPosts(context.Context, *Posts_ListRequest) (*Posts_ListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPosts not implemented")
 }
 func (UnimplementedApiServiceServer) mustEmbedUnimplementedApiServiceServer() {}
 
@@ -70,20 +84,38 @@ func RegisterApiServiceServer(s grpc.ServiceRegistrar, srv ApiServiceServer) {
 	s.RegisterService(&ApiService_ServiceDesc, srv)
 }
 
-func _ApiService_GetPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ApiService_CreatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Posts_CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServiceServer).GetPost(ctx, in)
+		return srv.(ApiServiceServer).CreatePost(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.ApiService/GetPost",
+		FullMethod: "/api.ApiService/CreatePost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServiceServer).GetPost(ctx, req.(*Posts_CreateRequest))
+		return srv.(ApiServiceServer).CreatePost(ctx, req.(*Posts_CreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiService_ListPosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Posts_ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServiceServer).ListPosts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ApiService/ListPosts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServiceServer).ListPosts(ctx, req.(*Posts_ListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,8 +128,12 @@ var ApiService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ApiServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetPost",
-			Handler:    _ApiService_GetPost_Handler,
+			MethodName: "CreatePost",
+			Handler:    _ApiService_CreatePost_Handler,
+		},
+		{
+			MethodName: "ListPosts",
+			Handler:    _ApiService_ListPosts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -69,6 +69,21 @@ func (m *Post) Validate() error {
 
 	// no validation rules for Body
 
+	for idx, item := range m.GetTags() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PostValidationError{
+					field:  fmt.Sprintf("Tags[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -126,43 +141,21 @@ var _ interface {
 	ErrorName() string
 } = PostValidationError{}
 
-// Validate checks the field values on Tag with the rules defined in the proto
-// definition for this message. If any rules are violated, an error is returned.
-func (m *Tag) Validate() error {
+// Validate checks the field values on PostTag with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *PostTag) Validate() error {
 	if m == nil {
 		return nil
 	}
 
-	// no validation rules for ID
-
-	if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return TagValidationError{
-				field:  "CreatedAt",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return TagValidationError{
-				field:  "UpdatedAt",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for Name
+	// no validation rules for Tag
 
 	return nil
 }
 
-// TagValidationError is the validation error returned by Tag.Validate if the
-// designated constraints aren't met.
-type TagValidationError struct {
+// PostTagValidationError is the validation error returned by PostTag.Validate
+// if the designated constraints aren't met.
+type PostTagValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -170,22 +163,22 @@ type TagValidationError struct {
 }
 
 // Field function returns field value.
-func (e TagValidationError) Field() string { return e.field }
+func (e PostTagValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e TagValidationError) Reason() string { return e.reason }
+func (e PostTagValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e TagValidationError) Cause() error { return e.cause }
+func (e PostTagValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e TagValidationError) Key() bool { return e.key }
+func (e PostTagValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e TagValidationError) ErrorName() string { return "TagValidationError" }
+func (e PostTagValidationError) ErrorName() string { return "PostTagValidationError" }
 
 // Error satisfies the builtin error interface
-func (e TagValidationError) Error() string {
+func (e PostTagValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -197,14 +190,14 @@ func (e TagValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sTag.%s: %s%s",
+		"invalid %sPostTag.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = TagValidationError{}
+var _ error = PostTagValidationError{}
 
 var _ interface {
 	Field() string
@@ -212,4 +205,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = TagValidationError{}
+} = PostTagValidationError{}

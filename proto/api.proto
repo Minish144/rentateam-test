@@ -9,10 +9,16 @@ import "common.proto";
 import "posts.proto";
 
 service ApiService {
-    rpc GetPost(Posts.CreateRequest) returns (Posts.CreateResponse) {
+    rpc CreatePost(Posts.CreateRequest) returns (Posts.CreateResponse) {
         option (google.api.http) = {
             post: "/api/v1/posts";
             body: "*";
+        };
+    }
+
+    rpc ListPosts(Posts.ListRequest) returns (Posts.ListResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/posts";
         };
     }
 }

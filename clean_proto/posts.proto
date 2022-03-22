@@ -8,8 +8,8 @@ import "common.proto";
 
 message Posts {
     message CreateRequest {
-        string header = 1 [(validate.rules).string = {min_len: 5}];
-        string body = 2 [(validate.rules).string = {min_len: 30}];
+        string header = 1;
+        string body = 2;
         repeated string tags = 3; // optional.
     }
 

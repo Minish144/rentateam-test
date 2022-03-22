@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "gen/pb";
+
+import public "google/protobuf/timestamp.proto";
+
+message Post {
+    string ID = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    google.protobuf.Timestamp updatedAt = 3;
+    string header = 4;
+    string body = 5;
+    repeated PostTag tags = 6; // optional.
+}
+
+message PostTag {
+    string tag = 1;
+}

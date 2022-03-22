@@ -2,6 +2,7 @@ excludes:
   - gen
   - .git
   - proto/third_party
+  - clean_proto
 
 protoc:
   version: 3.11.0

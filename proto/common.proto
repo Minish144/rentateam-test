@@ -16,14 +16,14 @@ message Post {
     string ID = 1 [(gorm.field).tag = {type: "uuid", primary_key: true}];
     google.protobuf.Timestamp createdAt = 2 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
     google.protobuf.Timestamp updatedAt = 3 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
-    string header = 4 [(gorm.field).tag = {unique_index: "idx_post_header", not_null: true}];
-    string body = 5 [(gorm.field).tag = {type: "text", unique_index: "idx_post_header", not_null: true}];
-    repeated string tags = 6 [(gorm.field).has_many = {foreign_key_tag: {not_null: true}}]; // optional.
+    string header = 4 [(gorm.field).tag = {type: "varchar(255)", unique_index: "idx_post_header", not_null: true}];
+    string body = 5 [(gorm.field).tag = {type: "text", not_null: true}];
+    repeated PostTag tags = 6; // optional.
 }
 
-message Tag {
-    string ID = 1 [(gorm.field).tag = {type: "uuid", primary_key: true}];
-    google.protobuf.Timestamp createdAt = 2 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
-    google.protobuf.Timestamp updatedAt = 3 [(gorm.field).tag = {default: "CURRENT_TIMESTAMP", not_null: true}];
-    string name = 4 [(gorm.field).tag = {unique_index: "idx_tag_name", not_null: true}];
+message PostTag {
+    option (gorm.opts) = {
+        ormable: true,
+    };
+    string tag = 1 [(gorm.field).tag = {type: "varchar(50)", unique_index: "idx_tag_name", not_null: true}];
 }
