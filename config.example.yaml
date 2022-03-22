@@ -1,0 +1,14 @@
+server:
+  grpc:
+    interface: 0.0.0.0
+    port: 3000
+  http:
+    interface: 0.0.0.0
+    port: 3010
+
+database:
+  host: localhost
+  port: 5432
+  username: postgres
+  password: postgres
+  db: postgres
