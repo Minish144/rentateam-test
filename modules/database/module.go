@@ -19,6 +19,7 @@ type DatabaseModule struct {
 	DB     *gorm.DB
 }
 
+// New creates new object of Database module
 func New(log *logger.LoggerModule, config *config.Config) (*DatabaseModule, error) {
 	m := &DatabaseModule{
 		log:    log,
