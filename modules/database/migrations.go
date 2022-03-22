@@ -3,8 +3,8 @@ package database
 import "github.com/minish144/rentateam-test/gen/pb"
 
 var allModels = []interface{}{
-	&pb.PostTagORM{},
 	&pb.PostORM{},
+	&pb.PostTagORM{},
 }
 
 func (m *DatabaseModule) Migrate() error {
