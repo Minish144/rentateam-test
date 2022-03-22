@@ -1,8 +1,6 @@
 package config
 
 import (
-	"github.com/fsnotify/fsnotify"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -20,14 +18,4 @@ func (c *Config) initalizeConfig() error {
 	}
 
 	return nil
-}
-
-func (c *Config) watchChanges() {
-	viper.WatchConfig()
-
-	viper.OnConfigChange(func(in fsnotify.Event) {
-		c.log.WithFields(logrus.Fields{
-			"name": in.Name,
-		}).Info("Config file changed")
-	})
 }

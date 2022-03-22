@@ -1,3 +1,6 @@
+app:
+  log_level: debug
+
 server:
   grpc:
     interface: 0.0.0.0

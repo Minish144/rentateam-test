@@ -4,16 +4,14 @@ import "github.com/sirupsen/logrus"
 
 type Config struct {
 	log      *logrus.Logger
+	App      AppConfig      `mapstructure:"app"`
 	Server   ServerConfig   `mapstructure:"server"`
 	Database DatabaseConfig `mapstructure:"database"`
 }
 
-type DatabaseConfig struct {
-	Host     string `mapstructure:"host"`
-	Port     uint32 `mapstructure:"port"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-	DB       string `mapstructure:"db"`
+type AppConfig struct {
+	LogLevel string `mapstructure:"log_level"`
+	SaveLogs bool   `mapstructure:"save_logs"`
 }
 
 type ServerConfig struct {
@@ -30,4 +28,12 @@ type HTTPConfig struct {
 	Enabled   bool   `mapstructure:"enabled"`
 	Interface string `mapstructure:"interface"`
 	Port      uint32 `mapstructure:"port"`
+}
+
+type DatabaseConfig struct {
+	Host     string `mapstructure:"host"`
+	Port     uint32 `mapstructure:"port"`
+	Username string `mapstructure:"username"`
+	Password string `mapstructure:"password"`
+	DB       string `mapstructure:"db"`
 }
