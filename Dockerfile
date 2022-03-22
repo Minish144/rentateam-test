@@ -2,11 +2,14 @@ FROM golang:alpine3.15 AS build
 
 WORKDIR /go/src/app
 
+RUN apk add git
+
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
 
 COPY . .
+
 RUN CGO_ENABLED=0 go build -o api .
 
 FROM scratch AS bin
