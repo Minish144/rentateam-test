@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "gen/pb";
+
+import "common.proto";
+
+import "posts.proto";
+
+service ApiService {
+    rpc CreatePost(Posts.CreateRequest) returns (Posts.CreateResponse) {}
+
+    rpc ListPosts(Posts.ListRequest) returns (Posts.ListResponse) {}
+}

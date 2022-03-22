@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "gen/pb";
+
+import "common.proto";
+
+message Posts {
+    message CreateRequest {
+        string header = 1;
+        string body = 2;
+        repeated string tags = 3; // optional.
+    }
+
+    message CreateResponse {
+        Post post = 1;
+    }
+
+    message ListRequest {}
+
+    message ListResponse {
+        repeated Post posts = 1;
+    }
+}
