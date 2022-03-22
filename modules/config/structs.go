@@ -1,35 +1,29 @@
 package config
 
-import "github.com/sirupsen/logrus"
-
-type Config struct {
-	log      *logrus.Logger
-	App      AppConfig      `mapstructure:"app"`
-	Server   ServerConfig   `mapstructure:"server"`
-	Database DatabaseConfig `mapstructure:"database"`
-}
-
+// AppConfig is an app settings structure
 type AppConfig struct {
 	LogLevel string `mapstructure:"log_level"`
-	SaveLogs bool   `mapstructure:"save_logs"`
 }
 
+// ServerConfig is a server settings structure
 type ServerConfig struct {
 	GRPC GRPCConfig `mapstructure:"grpc"`
 	HTTP HTTPConfig `mapstructure:"http"`
 }
 
+// GRPCConfig is a grpc settings structure
 type GRPCConfig struct {
 	Interface string `mapstructure:"interface"`
 	Port      uint32 `mapstructure:"port"`
 }
 
+// HTTPConfig is an http settings structure
 type HTTPConfig struct {
-	Enabled   bool   `mapstructure:"enabled"`
 	Interface string `mapstructure:"interface"`
 	Port      uint32 `mapstructure:"port"`
 }
 
+// DatabaseConfig is a postgresql settings structure
 type DatabaseConfig struct {
 	Host     string `mapstructure:"host"`
 	Port     uint32 `mapstructure:"port"`

@@ -14,13 +14,13 @@ type LoggerModule struct {
 	config *config.Config
 }
 
-// New creates new object of this module
+// New creates new object of Logger module
 func New(config *config.Config) (*LoggerModule, error) {
 	log := logrus.New()
 
 	m := &LoggerModule{
-		Logger: log,
 		config: config,
+		Logger: log,
 	}
 
 	if logLevel, err := logrus.ParseLevel(m.config.App.LogLevel); err != nil {
