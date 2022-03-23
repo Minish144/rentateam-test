@@ -30,7 +30,6 @@ jobs:
 
   docker-build:
     name: docker build
-    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     steps:
