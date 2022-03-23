@@ -12,6 +12,24 @@ go run main.go migrate
 go run main.go run
 ```
 
+## API эндпоинты
+### HTTP
+1. Создать новый пост: [POST] `http://localhost:3010/api/v1/posts`
+<br><em>Пример тела запроса</em>:
+```json
+{
+  "header": "First post in my blog",
+  "body": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
+  "tags": ["interviews", "golang]
+}
+```
+
+2. Получить список постов: [GET] `http://localhost:3010/api/v1/posts`
+
+### gRPC
+1. Создать новый пост: `api.ApiService.CreatePost`
+1. Получить список постов: `api.ApiService.ListPosts`
+
 ## Модули системы
 | Название | Описание | Путь |
 |---|---|---|
