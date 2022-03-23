@@ -12,12 +12,22 @@ go run main.go migrate
 go run main.go run
 ```
 
+## Модули системы
+| Название | Описание | Путь |
+|---|---|---|
+|Config|Модуль с Viper конфигом|modules/config|
+|Logger|Модуль с логгером, основан на Logrus|modules/logger|
+|Database|Модуль для работы с PostgreSQL|modules/database|
+|GRPC|Модуль с gRPC сервером|modules/server/grpc|
+|HTTP|Модуль с HTTP сервером|modules/server/http|
+|Controllers|Контроллеры для GRPC сервера|modules/server/grpc/controllers|
+
 ## Использованные технологии
 ### Proto
 1. [protoc-gen-gorm](https://github.com/TheSDTM/protoc-gen-gorm) - генерация gORM структур на основании прото-структур;
 2. [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate) - генерация валидаторов на основании параметров полей, указанных в прото;
 3. [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) - генерация gRPC сервера и клиента на основании прото структур, реализация http -> grpc прокси;
-4. [uber/prototool](https://github.com/uber/prototool) - удобная обертка на protoc для генерации из прото файликов с конфигами в yaml формате
+4. [uber/prototool](https://github.com/Minish144/prototool-arm64-support) - удобная обертка на protoc для генерации из прото файликов с конфигами в yaml формате (по ссылке мой форк с маленькими изменениями для поддержки arm64 архитектуры процессоров для работы на Маках с m1)
 
 ### Go
 1. [uber-go/fx](https://github.com/uber-go/fx) - удобная библиотека для реализации dependency injection;
