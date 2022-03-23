@@ -20,7 +20,7 @@ go run main.go run
 {
   "header": "First post in my blog",
   "body": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
-  "tags": ["interviews", "golang]
+  "tags": ["interviews", "golang"]
 }
 ```
 
